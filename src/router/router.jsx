@@ -17,7 +17,7 @@ class RouterList extends Component {
                         <li><Link to="/activities">优惠活动</Link></li>
                         <li><Link to="/culture">企业文化</Link></li>
                     </ul>
-                <Route exact path="/" component={Index} />
+                    <Route exact path="/" component={Index} />
                     <Route path="/recharge" component={recharge} />
                 </div>  
             </Router>

@@ -49,7 +49,7 @@ class Timmer extends Component{
       text_mm: text_mm,
       text_ss: text_ss
     })
-    if (text_hh == 0 && text_mm == 0 && text_ss == 0) {
+    if (hours == 0 && minutes == 0 && seconds == 0) {
       //clearInterval(this.Countdown)
       var data = new Date()
       data.setDate(data.getDate() + 2)
