@@ -30,7 +30,6 @@ class Timmer extends Component{
   }
   setTime() { // 倒计时
     var t = this.state
-    console.log(t)
     var year, month, day, hour, minute, second
     year = t.yy
     month = t.mm
