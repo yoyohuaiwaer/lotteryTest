@@ -25,19 +25,3 @@ class RouterList extends Component {
     }
 }
 export default RouterList
-/* ReactDOM.render((
-    <div>
-        <Show />
-        <Router>
-            <div>
-                <ul>
-                    <li><Link to="/">首页</Link></li>
-                    <li><Link to="/tv">TV</Link></li>
-                </ul>
-                <Route exact path="/" component={App} />
-                <Route path="/tv" component={Tvlist} />
-            </div>
-        </Router></div>
-
-
-))  */
