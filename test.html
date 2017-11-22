@@ -1,0 +1,80 @@
+<body>
+    <div id="app"></div>
+    <script src="https://cdn.bootcss.com/react/15.6.1/react-with-addons.js"></script>
+    <script src="https://cdn.bootcss.com/react/15.6.1/react-dom.js"></script>
+    <script src="https://cdn.bootcss.com/react-router-dom/4.2.2/react-router-dom.min.js"></script>
+    <script src="https://shy2850.github.io/wfQuery/demo/js/number-util.js"></script>
+    <script>
+        const $ = React.createElement
+        const {HashRouter,Switch,Route} = ReactRouterDOM
+        const Router = HashRouter
+        class Calc extends React.Component {
+            constructor(props) {
+                super(props)
+                this.state = {
+                    show: ''
+                }
+            }
+            onChange(e) {
+                if (e.target.value) {
+                    clearInterval(this.interval)
+                } else {
+                    this.beginInterval()
+                }
+                this.setState({
+                    show: NumberUtil.toRMB(Number(e.target.value))
+                })
+            }
+            beginInterval() {
+                const t = this
+                let i = 0
+                t.interval = setInterval(() => {
+                    i = (i + 1) % 6
+                    t.setState({
+                        show: '.'.repeat(i)
+                    })
+                }, 300)
+            }
+            componentDidMount() {
+                this.beginInterval()
+            }
+            componentWillUnmount() {
+                clearInterval(this.interval)
+            }
+            render() {
+                const onChange = this.onChange.bind(this)
+                const {show} = this.state
+                return $('div', null,
+                            $('input', {
+                                type: 'number',
+                                onChange
+                                }),
+                            $('span', {
+                                style: {
+                                    padding: 4,
+                                    color: 'red'
+                                }
+                            }, show)
+                        )
+                }
+ }
+            const Index = () => $('p', null, '我就是首页, 666!')
+            const A_404 = () => $('h2', {style: {textAlign: 'center'}}, '404')
+            const Root = ({children}) => $('div', null,
+            $('ul', null,
+                $('li', null, $('a', {href: '#/'}, '首页')),
+                $('li', null, $('a', {href: '#/calc'}, '人民币计算器')),
+                $('li', null, $('a', {href: '#/404'}, '没了'))
+            ),children)
+
+        ReactDOM.render($(Router, null,$(Root, null, $(Switch, null,
+                    $(Route, {path: '/',exact: true,component: Index}),
+                    $(Route, {path: '/calc',exact: true,component: Calc}),
+                    $(Route, {component: A_404}),
+                ))
+            ),
+            document.getElementById('app')
+        )
+    </script>
+
+    <body>
