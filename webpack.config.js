@@ -6,11 +6,13 @@ var path = require('path')
 var ROOT_PATH = path.resolve(__dirname)
 var SRC_PATH = path.resolve(ROOT_PATH, 'src')
 var BUILD_PATH = path.resolve(ROOT_PATH, 'dist')
-    // 插件
+var srcDir = path.resolve(process.cwd(), 'src');
+var nodeModPath = path.resolve(__dirname, './node_modules');
+// 插件
 var webpack = require('webpack')
 var HtmlwebpackPlugin = require('html-webpack-plugin')
 var ExtractTextPlugin = require('extract-text-webpack-plugin'); // less独立打包
-//var ImageminPlugin = require('imagemin-webpack-plugin').default; // 图片压缩
+var ImageminPlugin = require('imagemin-webpack-plugin').default; // 图片压缩
 
 module.exports = {
     entry: [SRC_PATH + '/App.jsx'], // 入口文件
@@ -41,15 +43,26 @@ module.exports = {
                 // 图片加载器
                 test: /\.(png|jpg|gif|jpeg)$/,
                 use: [{
+                        loader: 'file-loader',
+                        options: {
+                            limit: '8192',
+                            outputPath: 'images/',
+                            name: '[name].[ext]',
+                            useRelativePath: true
+                        }
+                    },
+                    /* {
                         loader: 'url-loader',
                         options: {
-                            limit: 1000000,
+                            limit: '8192',
                             name: '[name].[ext]'
                         }
-                    }
-                    //'image-webpack-loader', // 压缩图片
+                    }, */
+
+                    'image-webpack-loader', // 压缩图片
                 ]
             },
+
             {
                 test: /\.jsx$/,
                 use: 'babel-loader',
@@ -57,7 +70,6 @@ module.exports = {
             }
         ]
     },
-
     // 添加的插件
     plugins: [
         // new HtmlwebpackPlugin(),
@@ -80,14 +92,14 @@ module.exports = {
              except: ['$super', '$', 'exports', 'require'] // 排除关键字
          }), */
         new ExtractTextPlugin({
-            filename: 'css/[name].css' //.[contenthash:8].css'
+            filename: 'css/[name].[contenthash:8].css'
         }),
-        /* new ImageminPlugin({
+        new ImageminPlugin({
             disable: process.env.NODE_ENV !== 'production',
             pngquant: {
                 quality: '95-100'
             }
-        }) */
+        })
 
     ],
 
